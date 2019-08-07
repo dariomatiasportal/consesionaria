@@ -3,10 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Dhtmlx\Connector\GanttConnector;
 
-class Gantt extends CI_Controller {
+class Ganttuno extends CI_Controller {
 
     public function index() {
-        $this->load->view("GanttView");
+        $this->load->view("GanttViewUno");
+        //$this->load->view("GanttViewDos");
     }
 
     public function data() {

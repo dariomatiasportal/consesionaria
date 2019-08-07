@@ -8,6 +8,9 @@
 
 <script src="./static/lib/dhtmlxGantt/codebase/sources/ext/dhtmlxgantt_marker.js" type="text/javascript" charset="utf-8"></script><!-- Linea que marca el Dia-->
 
+<script src="./static/lib/dhtmlxGantt/codebase/ext/dhtmlxgantt_quick_info.js" type="text/javascript" charset="utf-8"></script>
+
+
 
 <style type="text/css">
     html, body{ height:100%; padding:0px; margin:0px; }
@@ -85,70 +88,22 @@
         <div class="col-md-2 col-md-push-10">
             <div class="panel panel-default">                
                 <div class="panel-heading">
-                    <h3 class="panel-title">Ordenar Gantt</h3>
+                    <h3 class="panel-title">Ordenar Gantt<br>por Mecanico</h3>
                 </div>
                 <div class="panel-body">
-                    <input type='button'  value='Ordenar A-Z' onclick='sortByName()'>
+                    <input type='button'  value='Ordenar A-Z' onclick='sortByNameMecanico()'>
                 </div>
             </div>
-
             <div class="panel panel-default">                
                 <div class="panel-heading">
-                    <h3 class="panel-title">Ordenar Gantt</h3>
+                    <h3 class="panel-title">Ordenar Gantt<br>por Cliente</h3>
                 </div>
                 <div class="panel-body">
-                    <ul class="nav nav-pills nav-stacked" id="gantt_info">
-                            <div class="filters_wrapper" id="filters_wrapper">
-                                <label>
-                                    <input type="checkbox" name="Araya" checked />
-                                    Araya
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Alanoca Ivan" checked/>
-                                    Alanoca Ivan
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Ale Vera Nestor" checked/>
-                                    Ale Vera Nestor
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Cespedes" checked/>
-                                    Cespedes
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Fernandez Pablo" checked/>
-                                    Fernandez Pablo
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Garcia Ricardo" checked/>
-                                    Garcia Ricardo
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Gomez Carlos" checked="" />
-                                    Gomez Carlos
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Gutierrez Antonio" checked/>
-                                    Gutierrez Antonio
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Herrera Marcos" checked/>
-                                    Herrera Marcos
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Pereyra Marcelo" checked/>
-                                    Pereyra Marcelo
-                                </label><br>
-                                <label>
-                                    <input type="checkbox" name="Poclava Nestor" checked/>
-                                    Poclava Nestor
-                                </label><br>
-                                <button class="btn">Deseleccionar</button>
-                            </div>
-                        </ul>
+                    <input type='button'  value='Ordenar A-Z' onclick='sortByNameCliente()'>
                 </div>
             </div>
         </div>
+        
         <div class="col-md-10 col-md-pull-2">
             <div class="gantt_wrapper panel" id="gantt_here"></div>
         </div>
@@ -188,11 +143,20 @@
     //---Botones Orden
     var p_direction = false;
     var n_direction = false;
-    function sortByName(){
+    function sortByNameMecanico(){
         if (n_direction){
             gantt.sort("mecanico",false);
         } else {
             gantt.sort("mecanico",true);
+        }
+        n_direction = !n_direction;
+    };
+
+    function sortByNameCliente(){
+        if (n_direction){
+            gantt.sort("cliente",false);
+        } else {
+            gantt.sort("cliente",true);
         }
         n_direction = !n_direction;
     };
@@ -251,6 +215,7 @@
     gantt.config.duration_unit = "minute";
     gantt.config.duration_step = 60;
     gantt.config.scale_height = 75;
+    gantt.config.readonly = true;
 
     gantt.config.subscales = [
 	    {unit: "day", step: 1, date: "%j %F, %l"},
@@ -262,21 +227,9 @@
         {name: "vehiculo", label: "Vehiculo", align: "center"},
         {name:"orden",   label:"Orden",   align: "center"},
         //{name: "mecanico", label: "Mecanico", align: "center"}                
-        {name:"mecanico",   label:"Mecanico",   align: "center", width : '70', template: function (obj) {
-                if (obj.mecanico == "Araya") return "Araya";
-                if (obj.mecanico == "Alanoca Ivan") return "Alanoca";
-                if (obj.mecanico == "Ale Vera Nestor") return "Ale Vera";
-                if (obj.mecanico == "Cespedes") return "Cespedes";
-                if (obj.mecanico == "Fernandez Pablo") return "Fernandez";
-                if (obj.mecanico == "Garcia Ricardo") return "Garcia";
-                if (obj.mecanico == "Gomez Carlos") return "Gomez";
-                if (obj.mecanico == "Gutierrez Antonio") return "Gutierrez";
-                if (obj.mecanico == "Herrera Marcos") return "Herrera";
-                if (obj.mecanico == "Pereyra Marcelo") return "Pereyra";
-                if (obj.mecanico == "Poclava Nesto") return "Poclava";
-                return "Cruz";
-            }}
+        {name:"mecanico",   label:"Mecanico",   align: "center", width : '70'}
     ];
+
 
     gantt.locale.labels.section_template = "Detalle";
     //https://docs.dhtmlx.com/gantt/desktop__lightbox_templates.html
@@ -297,11 +250,23 @@
     return true;
     });
 
+    //Lightbox Titulo
+    gantt.templates.quick_info_title = function(start, end, task){ 
+       return task.my_template = "<span id='title1'>Asesor: </span>"+ task.asesor;
+    };
+    gantt.templates.quick_info_date = function(start, end, task){
+        return null;
+        //return gantt.templates.task_time(start, end, task);
+    };
+    //Lightbox Cuerpo
+    gantt.templates.quick_info_content = function(start, end, task){ 
+       return task.my_template = "<span id='title1'>Descripción: </span>"+ task.text;
+    };
 
-    gantt.init("gantt_here", new Date(anio, mes, dia,7), new Date(anio, mes, dia+1));
-    gantt.load("./gantt/data", "xml");
+    gantt.init("gantt_here", new Date(anio, mes, dia,8), new Date(anio, mes, dia,21));
+    gantt.load("./ganttuno/data", "xml");
 
-    var dp = new dataProcessor("./gantt/data");
+    var dp = new dataProcessor("./ganttuno/data");
     dp.init(gantt);
 
 </script>
