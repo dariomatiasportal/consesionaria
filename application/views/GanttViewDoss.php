@@ -184,10 +184,10 @@
                                 </label><br>
                                 <label>
                                     <input type="checkbox" name="Alanoca Ivan" checked/>
-                                    Alanoca Ivan
+                                    Alanoca Ivans
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Ale Vera" checked/>
+                                    <input type="checkbox" name="Ale Vera Nestor" checked/>
                                     Ale Vera Nestor
                                 </label><br>
                                 <label>
@@ -199,31 +199,31 @@
                                     Cruz
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Fernandez" checked/>
-                                    Fernandez
+                                    <input type="checkbox" name="Fernandez Pablo" checked/>
+                                    Fernandez Pablo
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Garcia" checked/>
+                                    <input type="checkbox" name="Garcia Ricardo" checked/>
                                     Garcia Ricardo
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Gomez" checked="" />
+                                    <input type="checkbox" name="Gomez Carlos" checked="" />
                                     Gomez Carlos
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Gutierrez" checked/>
+                                    <input type="checkbox" name="Gutierrez Antonio" checked/>
                                     Gutierrez Antonio
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Herrera" checked/>
+                                    <input type="checkbox" name="Herrera Marcos" checked/>
                                     Herrera Marcos
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Pereyra" checked/>
+                                    <input type="checkbox" name="Pereyra Marcelo" checked/>
                                     Pereyra Marcelo
                                 </label><br>
                                 <label>
-                                    <input type="checkbox" name="Poclava" checked/>
+                                    <input type="checkbox" name="Poclava Nestor" checked/>
                                     Poclava Nestor
                                 </label><br>
                                 <button class="btn">Deseleccionar</button>
@@ -350,7 +350,7 @@ $('.btn').click(function() {
     gantt.config.duration_unit = "minute";
     gantt.config.duration_step = 60;
     gantt.config.scale_height = 75;
-    //gantt.config.readonly = true;
+    gantt.config.readonly = true;
 
         gantt.config.subscales = [
             {unit: "day", step: 1, date: "%l %j de %F"},
@@ -364,16 +364,16 @@ $('.btn').click(function() {
             {name:"mecanico",   label:"Mecanico",   align: "center", width : '70', template: function (obj) {
                 if (obj.mecanico == "Araya") return "Araya";
                 if (obj.mecanico == "Alanoca Ivan") return "Alanoca";
-                if (obj.mecanico == "Ale Vera") return "Ale Vera";
+                if (obj.mecanico == "Ale Vera Nestor") return "Ale Vera";
                 if (obj.mecanico == "Cespedes") return "Cespedes";
                 if (obj.mecanico == "Cruz") return "Cruz";
-                if (obj.mecanico == "Fernandez") return "Fernandez";
-                if (obj.mecanico == "Garcia") return "Garcia";
-                if (obj.mecanico == "Gomez") return "Gomez";
-                if (obj.mecanico == "Gutierrez") return "Gutierrez";
-                if (obj.mecanico == "Herrera") return "Herrera";
-                if (obj.mecanico == "Pereyra") return "Pereyra";
-                if (obj.mecanico == "Poclava") return "Poclava";
+                if (obj.mecanico == "Fernandez Pablo") return "Fernandez";
+                if (obj.mecanico == "Garcia Ricardo") return "Garcia";
+                if (obj.mecanico == "Gomez Carlos") return "Gomez";
+                if (obj.mecanico == "Gutierrez Antonio") return "Gutierrez";
+                if (obj.mecanico == "Herrera Marcos") return "Herrera";
+                if (obj.mecanico == "Pereyra Marcelo") return "Pereyra";
+                if (obj.mecanico == "Poclava Nestor") return "Poclava";
                 return "Cruz";
             }}
         ];
@@ -393,12 +393,13 @@ $('.btn').click(function() {
             }
         };
 
-gantt.locale.labels.section_template = "Details";
+        gantt.locale.labels.section_template = "Detalle";
     //https://docs.dhtmlx.com/gantt/desktop__lightbox_templates.html
     gantt.config.lightbox.sections = [
         {name: "description", height: 38, map_to: "text", type: "textarea", focus: true},
         {name:"template", height:30, type:"template", map_to:"my_template"},
-        {name: "description", type: "text", map_to: "mecanico"}
+        //{name: "period", type: "time", map_to: "auto"}
+        
     ];
 
     gantt.templates.time_picker = function(date){
@@ -424,11 +425,10 @@ gantt.locale.labels.section_template = "Details";
        return task.my_template = "<span id='title1'>Descripción: </span>"+ task.text;
     };
 
+    //gantt.getMarker(markerId); //->{css:"today", text:"Now", id:...}
     gantt.init("gantt_here", new Date(anio, mes, dia,8), new Date(anio, mes, dia,21));
     gantt.load("./ganttdos/data", "xml");
 
-    var dp = new dataProcessor("./ganttdos/data");
+    var dp = new dataProcessor("./gantt/data");
     dp.init(gantt);
-
-</script>
-</body>
+    </script>

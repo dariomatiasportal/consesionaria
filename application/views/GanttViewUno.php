@@ -160,53 +160,8 @@
         }
         n_direction = !n_direction;
     };
+  
 
-    //Filtrado 
-    //Filtrado 
-    /*    var filter_inputs = document.getElementById("filters_wrapper").getElementsByTagName("input");
-        for (var i=0; i<filter_inputs.length; i++) {
-            var filter_input = filter_inputs[i];
-
-            // attach event handler to update filters object and refresh data (so filters will be applied)
-            filter_input.onchange = function() {
-                gantt.refreshData();
-            }
-        }
-
-        function hasPriority(parent, mecanico){
-            if(gantt.getTask(parent).mecanico == mecanico)
-                return true;
-
-            var child = gantt.getChildren(parent);
-            for(var i = 0; i < child.length; i++){
-                if(hasPriority(child[i], mecanico))
-                    return true;
-            }
-            return false;
-        }
-
-        gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
-            for (var i=0; i<filter_inputs.length; i++) {
-                var filter_input = filter_inputs[i];
-
-
-                if (filter_input.checked){
-                    if (hasPriority(id, filter_input.name)){
-                        return true;
-                    }
-                }
-
-            }
-            return false;
-        });
-
-    $('.btn').click(function() {
-        $('input[type=checkbox]').each(function() 
-        { 
-            gantt.refreshData();
-            this.checked = false; 
-        }); 
-    })*/
     gantt.config.xml_date = "%Y-%m-%d %H:%i:%s";
     gantt.config.step = 1;
     gantt.config.scale_unit = "hour";
@@ -215,7 +170,8 @@
     gantt.config.duration_unit = "minute";
     gantt.config.duration_step = 60;
     gantt.config.scale_height = 75;
-    gantt.config.readonly = true;
+    gantt.config.editable_property = "mecanico";
+    //gantt.config.readonly = true;
 
     gantt.config.subscales = [
 	    {unit: "day", step: 1, date: "%j %F, %l"},
@@ -225,19 +181,19 @@
 	gantt.config.columns = [
         {name: "cliente", label: "Cliente", width: "*", tree: true},
         {name: "vehiculo", label: "Vehiculo", align: "center"},
-        {name:"orden",   label:"Orden",   align: "center"},
-        //{name: "mecanico", label: "Mecanico", align: "center"}                
-        {name:"mecanico",   label:"Mecanico",   align: "center", width : '70'}
+        //{name:"orden",   label:"Orden",   align: "center"},
+        {name: "orden", label:"N°Orden", align: "center", width : '50'},
+        {name:"mecanico", label:"Mecanico",   align: "center"}
+        //{name: "text", label: "Detalle", align: "center"},                
     ];
 
 
-    gantt.locale.labels.section_template = "Detalle";
+    gantt.locale.labels.section_template = "Details";
     //https://docs.dhtmlx.com/gantt/desktop__lightbox_templates.html
     gantt.config.lightbox.sections = [
         {name: "description", height: 38, map_to: "text", type: "textarea", focus: true},
         {name:"template", height:30, type:"template", map_to:"my_template"},
-        //{name: "period", type: "time", map_to: "auto"}
-        
+        {name: "description", type: "text", map_to: "mecanico"}
     ];
 
     gantt.templates.time_picker = function(date){

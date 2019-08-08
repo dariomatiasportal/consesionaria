@@ -15,7 +15,7 @@ class Ganttuno extends CI_Controller {
 
         $scheduler = new GanttConnector($this->db, "PHPCI");
         $scheduler->render_links("gantt_links", "id", "source,target,type");
-        $scheduler->render_table("gantt_tasks","id","start_date,duration,text,mecanico,vehiculo,orden,cliente, asesor");
+        $scheduler->render_table("gantt_tasks","id","start_date,duration,text,vehiculo,cliente,mecanico,orden,asesor");
     }
 
 }
